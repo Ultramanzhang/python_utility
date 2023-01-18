@@ -2,7 +2,10 @@ import time
 import requests
 import os
 from bs4 import BeautifulSoup
-from threading import Thread
+from multiprocessing import Process
+
+
+
 def xiaolonghui():
     a = int(time.time() * 1000)
     url = 'https://qualcomm.growthideadata.com/qualcomm-app/api/user/signIn?userId='
@@ -27,7 +30,7 @@ def xiaolonghui():
 def bugku():
     url = "https://ctf.bugku.com/user/checkin"
     headers = {
-        "cookie": "",
+        "cookie": ""
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
         # "x-csrf-token": ""
     }
@@ -39,10 +42,9 @@ def bugku():
 
 
 if __name__ == '__main__':
-    threads = []  # 定义一个线程池
-    xiaolonghui = Thread(target=xiaolonghui)    #创建线程
-    threads.append(xiaolonghui)     # 加入线程池
-    bugku = Thread(target=bugku())
-    threads.append(bugku)
-    for i in threads:
-        i.start()   # 启动线程
+    Process(target=xiaolonghui).start()#启动多进程
+    Process(target=bugku).start()
+    # 扩展空间，方便以后增加新的签到函数
+
+
+    os.system('pause')
