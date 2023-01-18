@@ -2,6 +2,7 @@ import time
 import requests
 import os
 from bs4 import BeautifulSoup
+from threading import Thread
 def xiaolonghui():
     a = int(time.time() * 1000)
     url = 'https://qualcomm.growthideadata.com/qualcomm-app/api/user/signIn?userId='
@@ -12,40 +13,36 @@ def xiaolonghui():
                }
     response = requests.get(url=url, headers=headers)
     if response.status_code == 200:
-        print(response.json()['message'])
+        print("骁龙会："+response.json()['message'])
 
     elif response.status_code == 1:
-        print('\n【签到】 失败, 可能是:' + response.json()['message'])
+        print("骁龙会："+'【签到】 失败, 可能是:' + response.json()['message'])
 
     elif response.status_code == 40001:
-        print('\n【签到】 失败, 可能是:' + response.json()['message'])
+        print("骁龙会："+'【签到】 失败, 可能是:' + response.json()['message'])
 
     else:
-        print('\n【签到】 失败 ❌ 了呢, 可能是网络被外星人抓走了!\n')
+        print("骁龙会："+'【签到】 失败 ❌ 了呢, 可能是网络被外星人抓走了!')
 
 def bugku():
     url = "https://ctf.bugku.com/user/checkin"
     headers = {
-        "cookie": ""    
+        "cookie": "",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+        # "x-csrf-token": ""
     }
     res = requests.get(url, headers=headers)
     soup = BeautifulSoup(res.text, 'lxml')
     msg = soup.select('h3')
     for i in msg:
-        print(i.text.replace('\n', '').replace(' ', ''))
+        print("BUGku："+i.text.replace('\n', '').replace(' ', ''))
 
 
 if __name__ == '__main__':
-    print('''
-----------------------
-骁龙会:
-    ''')
-    xiaolonghui()
-    print('''
-----------------------
-bugku:
-''')
-    bugku()
-    print('----------------------')
-    os.system('pause')
+    threads = []  # 定义一个线程池
+    xiaolonghui = Thread(target=xiaolonghui)    #创建线程
+    threads.append(xiaolonghui)     # 加入线程池
+    bugku = Thread(target=bugku())
+    threads.append(bugku)
+    for i in threads:
+        i.start()   # 启动线程
