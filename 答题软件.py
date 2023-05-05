@@ -1,6 +1,7 @@
 import json
 
 # 菜单函数
+import os
 import random
 
 index = 0
@@ -78,11 +79,14 @@ def suiji():
 def choose():
     print("*" * 30)
     print('\n\n\n')
-    q = input('请输入你想练习的方式：\n1：顺序练习\n2：随机练习\n')
+    q = input('请输入你想练习的方式：\n1：顺序练习\n2：随机练习\n（Q退出本程序）\n\n')
     if q == "1":
         shunxu()
     elif q == "2":
         suiji()
+    elif q.upper()=='Q':
+        print('感谢使用，祝考试顺利')
+        os.system('pause')
     else:
         print('选择有误请重新输入')
         choose()
