@@ -108,3 +108,4 @@ class DoubanTop250(object):
 if __name__ == '__main__':
    douban = DoubanTop250()
    douban.main()
+
